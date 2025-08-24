@@ -39,7 +39,6 @@ public class UserService {
 
         User savedUser = new User();
         savedUser.setUserId(userResponse.getUserId());
-        savedUser.setUsername(userResponse.getUsername());
         savedUser.setFirstName(userResponse.getFirstName());
         savedUser.setLastName(userResponse.getLastName());
         savedUser.setEmail(userResponse.getEmail());
@@ -50,7 +49,6 @@ public class UserService {
     public UserResponse mapToUserResponse(User user){
         UserResponse userResponse = new UserResponse();
         userResponse.setUserId(user.getUserId());
-        userResponse.setUsername(user.getUsername());
         userResponse.setFirstName(user.getFirstName());
         userResponse.setLastName(user.getLastName());
         userResponse.setEmail(user.getEmail());
