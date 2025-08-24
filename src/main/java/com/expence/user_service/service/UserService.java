@@ -9,26 +9,27 @@ import com.expence.user_service.dto.UserResponse;
 import com.expence.user_service.model.User;
 import com.expence.user_service.repo.UserRepo;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class UserService {
     @Autowired
     private UserRepo userRepo;
 
     public Boolean exitsByUserId(String userId){
+        log.info("Checking existence of user with ID: {}", userId);
         return userRepo.existsById(userId);
     }
 
     public UserResponse getUserById(String userId){
+        log.info("Fetching user with ID: {}", userId);
         User user = userRepo.findById(userId)
                     .orElseThrow(()->new RuntimeException("User not found."));
 
-        if(user != null){
-            UserResponse userResponse = mapToUserResponse(user);
-            return userResponse;
-
-        }
-        
-        return null;
+        log.info(user.getUserId());
+        UserResponse userResponse = mapToUserResponse(user);
+        return userResponse;
     }
 
     public UserResponse registerUser(UserResponse userResponse){
@@ -43,6 +44,8 @@ public class UserService {
         savedUser.setLastName(userResponse.getLastName());
         savedUser.setEmail(userResponse.getEmail());
         savedUser.setProfilePicUrl(userResponse.getProfilePicUrl());
+        userRepo.save(savedUser);
+        log.info("User with ID: {} registered successfully.", savedUser.getUserId());
         return mapToUserResponse(savedUser);
     }
 
